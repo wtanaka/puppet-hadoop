@@ -199,6 +199,7 @@ class hadoop {
     }
  
     exec { "download hadoop-${hadoop::params::version}.tar.gz":
+        timeout => 0,
         command => "wget ${hadoop::params::download_url}/hadoop-${hadoop::params::version}.tar.gz",
         cwd => "${hadoop::params::hadoop_base}",
         alias => "download-hadoop",
@@ -545,6 +546,7 @@ class hadoop {
         }
 
         exec { "download apache commons ${hadoop::params::common_version}.tar.gz":
+            timeout => 0,
             command => "wget http://ftp.tc.edu.tw/pub/Apache//commons/daemon/source/commons-daemon-${hadoop::params::common_version}-src.tar.gz",
             cwd => "${hadoop::params::common_base}",
             alias => "download-commons",

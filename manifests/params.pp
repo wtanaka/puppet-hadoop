@@ -5,7 +5,7 @@ class hadoop::params {
     include java::params
 
     $version = $::hostname ? {
-        default            => "2.2.0",
+        default            => "2.6.0",
     }
 
     $download_url = $::hostname ? {

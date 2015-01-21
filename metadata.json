@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "version_requirement": "0.0.1",
-      "name": "viirya/java"
+      "name": "wtanaka/java"
     }
   ],
   "checksums": {
@@ -37,7 +37,7 @@
     "templates/conf/yarn-site.xml.erb": "dbe846e55c8bee411b0cce9fc6880160",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c"
   },
-  "name": "viirya-hadoop",
-  "project_page": "https://github.com/viirya/puppet-hadoop",
-  "author": "Liang-Chi Hsieh"
+  "name": "wtanaka-hadoop",
+  "project_page": "https://github.com/wtanaka/puppet-hadoop",
+  "author": "Wesley Tanaka"
 }

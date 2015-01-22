@@ -1,5 +1,5 @@
 name    'wtanaka-hadoop'
-version '0.0.18'
+version '0.0.19'
 author 'Wesley Tanaka'
 dependency 'wtanaka/java', '0.0.6'
 dependency 'puppetlabs/stdlib', '>= 3.2.0'

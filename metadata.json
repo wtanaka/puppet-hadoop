@@ -9,7 +9,7 @@
   ],
   "dependencies": [
     {
-      "version_requirement": "0.0.1",
+      "version_requirement": "0.0.7",
       "name": "wtanaka/java"
     }
   ],

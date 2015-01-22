@@ -119,7 +119,7 @@ class hadoop::params {
     #}
 
     $hadoop_tmp_path = $::hostname ? {
-        default            => "/data/hadoop",
+        default            => "/tmp/hadoop",
     }
  
     $mapred_log_dir = $::hostname ? {

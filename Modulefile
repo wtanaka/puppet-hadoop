@@ -1,7 +1,7 @@
 name    'wtanaka-hadoop'
-version '0.0.21'
+version '0.0.22'
 author 'Wesley Tanaka'
-dependency 'wtanaka/java', '0.0.7'
+dependency 'puppetlabs/java', '1.3.0'
 dependency 'puppetlabs/stdlib', '>= 3.2.0'
 summary 'Install Hadoop MapReduce Next Generation.'
 description "This module deploys Hadoop MapReduce Next Generation on a cluster."

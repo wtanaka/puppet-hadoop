@@ -10,28 +10,28 @@ class hadoop::params {
 
     $download_url = $::hostname ? {
         default            => "http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-${version}",
-    }           
- 
+    }
+
     $hadoop_user = $::hostname ? {
         default            => "hduser",
     }
- 
+
     $hdfs_user = $::hostname ? {
         default            => "hdfs",
     }
- 
+
     $yarn_user = $::hostname ? {
         default            => "yarn",
     }
- 
+
     $mapred_user = $::hostname ? {
         default            => "mapred",
     }
- 
+
     $hadoop_group = $::hostname ? {
         default            => "hadoop",
     }
-        
+
     $master = $::hostname ? {
         default            => "vm1.openstacklocal",
     }
@@ -47,11 +47,11 @@ class hadoop::params {
     $slaves = $::hostname ? {
         default            => unique(flatten([$dfs_slaves, $yarn_slaves])),
     }
- 
+
     $resourcemanager = $::hostname ? {
         default            => "vm2.openstacklocal",
     }
-        
+
     $resource_tracker_port = $::hostname ? {
         default            => "8031",
     }
@@ -65,11 +65,11 @@ class hadoop::params {
     $scheduler_class = $::hostname ? {
         default            => "org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler",
     }
- 
+
     $resourcemanager_port = $::hostname ? {
         default            => "8032",
     }
- 
+
     $hdfsport = $::hostname ? {
         default            => "8020",
     }
@@ -89,30 +89,30 @@ class hadoop::params {
     $hadoop_base = $::hostname ? {
         default            => "/opt/hadoop",
     }
- 
+
     $hadoop_conf = $::hostname ? {
         default            => "${hadoop_base}/hadoop/conf",
     }
- 
+
     $yarn_conf = $::hostname ? {
         default            => "${hadoop_base}/hadoop/conf",
     }
- 
+
     $hadoop_user_path = $::hostname ? {
         default            => "/home/${hadoop_user}",
-    }             
+    }
 
     $hdfs_user_path = $::hostname ? {
         default            => "/home/${hdfs_user}",
-    }             
+    }
 
     $yarn_user_path = $::hostname ? {
         default            => "/home/${yarn_user}",
-    }             
+    }
 
     $mapred_user_path = $::hostname ? {
         default            => "/home/${mapred_user}",
-    }             
+    }
 
     #$hdfs_path = $::hostname ? {
     #    default            => "${hadoop_user_path}/hdfs",
@@ -121,11 +121,11 @@ class hadoop::params {
     $hadoop_tmp_path = $::hostname ? {
         default            => "/tmp/hadoop",
     }
- 
+
     $mapred_log_dir = $::hostname ? {
         default            => "${hadoop_base}/hadoop/logs",
     }
- 
+
     $hadoop_log_dir = $::hostname ? {
         default            => "${hadoop_base}/hadoop/hadoop_log",
     }
@@ -145,11 +145,11 @@ class hadoop::params {
     $kerberos_realm = $::hostname ? {
         default            => "OPENSTACKLOCAL",
     }
- 
+
     $common_base = $::hostname ? {
         default            => "/opt/jsvc",
     }
- 
+
     $common_version = $::hostname ? {
         default            => "1.0.15",
     }
@@ -194,7 +194,7 @@ class hadoop::params {
         $zk_acl_text = undef
 
     }
- 
+
     $yarn_nodemanager_localdirs = $::hostname ? {
         default            => "${yarn_user_path}/nm-local-dir",
     }

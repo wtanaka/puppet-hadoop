@@ -3,7 +3,7 @@
 class hadoop {
 
     require hadoop::params
-    
+
     group { "${hadoop::params::hadoop_group}":
         ensure => present,
         gid => "800"
@@ -41,7 +41,7 @@ class hadoop {
         home => "${hadoop::params::yarn_user_path}",
         require => Group["hadoop"],
     }
- 
+
     user { "${hadoop::params::mapred_user}":
         ensure => present,
         comment => "Hadoop",
@@ -52,7 +52,7 @@ class hadoop {
         home => "${hadoop::params::mapred_user_path}",
         require => Group["hadoop"],
     }
- 
+
     file { "/etc/profile.d/hadoop.sh":
         ensure => present,
         owner => "root",
@@ -60,7 +60,7 @@ class hadoop {
         alias => "profile-hadoop",
         content => template("hadoop/home/bash_profile.erb"),
     }
-     
+
     file { "${hadoop::params::hadoop_user_path}/.bashrc":
         ensure => present,
         owner => "${hadoop::params::hadoop_user}",
@@ -69,7 +69,7 @@ class hadoop {
         content => template("hadoop/home/bashrc.erb"),
         require => User["${hadoop::params::hadoop_user}"]
     }
-    
+
     file { "${hadoop::params::hdfs_user_path}/.bashrc":
         ensure => present,
         owner => "${hadoop::params::hdfs_user}",
@@ -78,7 +78,7 @@ class hadoop {
         content => template("hadoop/home/bashrc.erb"),
         require => User["${hadoop::params::hdfs_user}"]
     }
-    
+
     file { "${hadoop::params::yarn_user_path}/.bashrc":
         ensure => present,
         owner => "${hadoop::params::yarn_user}",
@@ -87,7 +87,7 @@ class hadoop {
         content => template("hadoop/home/bashrc.erb"),
         require => User["${hadoop::params::yarn_user}"]
     }
-    
+
     file { "${hadoop::params::mapred_user_path}/.bashrc":
         ensure => present,
         owner => "${hadoop::params::mapred_user}",
@@ -96,7 +96,7 @@ class hadoop {
         content => template("hadoop/home/bashrc.erb"),
         require => User["${hadoop::params::mapred_user}"]
     }
-        
+
     file { "${hadoop::params::hadoop_user_path}":
         ensure => "directory",
         owner => "${hadoop::params::hadoop_user}",
@@ -104,7 +104,7 @@ class hadoop {
         alias => "${hadoop::params::hadoop_user}-home",
         require => [ User["${hadoop::params::hadoop_user}"], Group["hadoop"] ]
     }
- 
+
     file { "${hadoop::params::hdfs_user_path}":
         ensure => "directory",
         owner => "${hadoop::params::hdfs_user}",
@@ -112,7 +112,7 @@ class hadoop {
         alias => "${hadoop::params::hdfs_user}-home",
         require => [ User["${hadoop::params::hdfs_user}"], Group["hadoop"] ]
     }
- 
+
     file { "${hadoop::params::yarn_user_path}":
         ensure => "directory",
         owner => "${hadoop::params::yarn_user}",
@@ -120,7 +120,7 @@ class hadoop {
         alias => "${hadoop::params::yarn_user}-home",
         require => [ User["${hadoop::params::yarn_user}"], Group["hadoop"] ]
     }
- 
+
     file { "${hadoop::params::mapred_user_path}":
         ensure => "directory",
         owner => "${hadoop::params::mapred_user}",
@@ -128,7 +128,7 @@ class hadoop {
         alias => "${hadoop::params::mapred_user}-home",
         require => [ User["${hadoop::params::mapred_user}"], Group["hadoop"] ]
     }
- 
+
     file {"${hadoop::params::hadoop_tmp_path}":
         ensure => "directory",
         mode => "g=rwx,o=r",
@@ -137,7 +137,7 @@ class hadoop {
         alias => "hadoop-tmp-dir",
         require => File["${hadoop::params::hadoop_user}-home"]
     }
- 
+
     file {"${hadoop::params::mapred_log_dir}":
         ensure => "directory",
         mode => "g=rwx,o=r",
@@ -146,7 +146,7 @@ class hadoop {
         alias => "mapre-log-dir",
         require => [ File["hadoop-base"], Exec["untar-hadoop"], File["hadoop-symlink"] ],
     }
- 
+
     file {"${hadoop::params::hadoop_log_dir}":
         ensure => "directory",
         mode => "g=rwx,o=r",
@@ -155,7 +155,7 @@ class hadoop {
         alias => "hadoop-log-dir",
         require => [ File["hadoop-base"], Exec["untar-hadoop"], File["hadoop-symlink"] ],
     }
- 
+
     file {"${hadoop::params::yarn_log_dir}":
         ensure => "directory",
         mode => "g=rwx,o=r",
@@ -164,7 +164,7 @@ class hadoop {
         alias => "yarn-log-dir",
         require => [ File["hadoop-base"], Exec["untar-hadoop"], File["hadoop-symlink"] ],
     }
- 
+
     #file {"${hadoop::params::yarn_nodemanager_localdirs}":
     #    ensure => "directory",
     #    owner => "${hadoop::params::yarn_user}",
@@ -180,7 +180,7 @@ class hadoop {
     #    alias => "hadoop-tmp-dir",
     #    require => File["${hadoop::params::yarn_user}-home"]
     #}
- 
+
     file {"${hadoop::params::hadoop_base}":
         ensure => "directory",
         owner => "${hadoop::params::hadoop_path_owner}",
@@ -197,7 +197,7 @@ class hadoop {
         require => [File["hadoop-base"], Exec["untar-hadoop"], File["hadoop-symlink"]],
         before => [ File["core-site-xml"], File["hdfs-site-xml"], File["mapred-site-xml"], File["yarn-site-xml"], File["yarn-env-sh"], File["hadoop-env-sh"], File["capacity-scheduler-xml"], File["hadoop-master"], File["hadoop-slave"] ]
     }
- 
+
     exec { "download hadoop-${hadoop::params::version}.tar.gz":
         timeout => 0,
         command => "wget ${hadoop::params::download_url}/hadoop-${hadoop::params::version}.tar.gz",
@@ -217,7 +217,7 @@ class hadoop {
         owner => "${hadoop::params::hadoop_path_owner}",
         group => "${hadoop::params::hadoop_group}",
         alias => "hadoop-source-tgz",
-        before => Exec["untar-hadoop"],        
+        before => Exec["untar-hadoop"],
         require => [File["hadoop-base"], Exec["download-hadoop"]],
     }
 
@@ -241,7 +241,7 @@ class hadoop {
         alias => "hadoop-app-dir",
         require => Exec["untar-hadoop"],
     }
-        
+
     file { "${hadoop::params::hadoop_base}/hadoop":
         force => true,
         ensure => "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}",
@@ -252,7 +252,7 @@ class hadoop {
         require => [Exec["untar-hadoop"], File["hadoop-app-dir"]],
         before => [ File["core-site-xml"], File["hdfs-site-xml"], File["mapred-site-xml"], File["yarn-site-xml"], File["yarn-env-sh"], File["hadoop-env-sh"], File["capacity-scheduler-xml"], File["hadoop-master"], File["hadoop-slave"] ]
     }
-    
+
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/core-site.xml":
         owner => "${hadoop::params::hadoop_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -268,7 +268,7 @@ class hadoop {
         alias => "capacity-scheduler-xml",
         content => template("hadoop/conf/capacity-scheduler.xml.erb"),
     }
- 
+
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/hdfs-site.xml":
         owner => "${hadoop::params::hadoop_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -276,7 +276,7 @@ class hadoop {
         alias => "hdfs-site-xml",
         content => template("hadoop/conf/hdfs-site.xml.erb"),
     }
- 
+
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/yarn-env.sh":
         owner => "${hadoop::params::hadoop_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -284,7 +284,7 @@ class hadoop {
         alias => "yarn-env-sh",
         content => template("hadoop/conf/yarn-env.sh.erb"),
     }
-    
+
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/hadoop-env.sh":
         owner => "${hadoop::params::hadoop_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -292,21 +292,21 @@ class hadoop {
         alias => "hadoop-env-sh",
         content => template("hadoop/conf/hadoop-env.sh.erb"),
     }
-    
+
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/mapred-site.xml":
         owner => "${hadoop::params::hadoop_user}",
         group => "${hadoop::params::hadoop_group}",
         mode => "664",
         alias => "mapred-site-xml",
-        content => template("hadoop/conf/mapred-site.xml.erb"),        
+        content => template("hadoop/conf/mapred-site.xml.erb"),
     }
- 
+
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/yarn-site.xml":
         owner => "${hadoop::params::hadoop_user}",
         group => "${hadoop::params::hadoop_group}",
         mode => "664",
         alias => "yarn-site-xml",
-        content => template("hadoop/conf/yarn-site.xml.erb"),        
+        content => template("hadoop/conf/yarn-site.xml.erb"),
     }
 
     file { "${hadoop::params::hadoop_base}/hadoop-${hadoop::params::version}/conf/masters":
@@ -332,7 +332,7 @@ class hadoop {
         ensure => "directory",
         alias => "${hadoop::params::hadoop_user}-ssh-dir",
     }
- 
+
     file { "${hadoop::params::hdfs_user_path}/.ssh/":
         owner => "${hadoop::params::hdfs_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -340,7 +340,7 @@ class hadoop {
         ensure => "directory",
         alias => "${hadoop::params::hdfs_user}-ssh-dir",
     }
- 
+
     file { "${hadoop::params::yarn_user_path}/.ssh/":
         owner => "${hadoop::params::yarn_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -348,7 +348,7 @@ class hadoop {
         ensure => "directory",
         alias => "${hadoop::params::yarn_user}-ssh-dir",
     }
- 
+
     file { "${hadoop::params::mapred_user_path}/.ssh/":
         owner => "${hadoop::params::mapred_user}",
         group => "${hadoop::params::hadoop_group}",
@@ -356,7 +356,7 @@ class hadoop {
         ensure => "directory",
         alias => "${hadoop::params::mapred_user}-ssh-dir",
     }
-    
+
     file { "${hadoop::params::hadoop_user_path}/.ssh/id_rsa.pub":
         ensure => present,
         owner => "${hadoop::params::hadoop_user}",
@@ -365,7 +365,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::hadoop_user}-ssh-dir"],
     }
-    
+
     file { "${hadoop::params::hadoop_user_path}/.ssh/id_rsa":
         ensure => present,
         owner => "${hadoop::params::hadoop_user}",
@@ -374,7 +374,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa",
         require => File["${hadoop::params::hadoop_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::hdfs_user_path}/.ssh/id_rsa.pub":
         ensure => present,
         owner => "${hadoop::params::hdfs_user}",
@@ -383,7 +383,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::hdfs_user}-ssh-dir"],
     }
-    
+
     file { "${hadoop::params::hdfs_user_path}/.ssh/id_rsa":
         ensure => present,
         owner => "${hadoop::params::hdfs_user}",
@@ -392,7 +392,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa",
         require => File["${hadoop::params::hdfs_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::yarn_user_path}/.ssh/id_rsa.pub":
         ensure => present,
         owner => "${hadoop::params::yarn_user}",
@@ -401,7 +401,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::yarn_user}-ssh-dir"],
     }
-    
+
     file { "${hadoop::params::yarn_user_path}/.ssh/id_rsa":
         ensure => present,
         owner => "${hadoop::params::yarn_user}",
@@ -410,7 +410,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa",
         require => File["${hadoop::params::yarn_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::mapred_user_path}/.ssh/id_rsa.pub":
         ensure => present,
         owner => "${hadoop::params::mapred_user}",
@@ -419,7 +419,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::mapred_user}-ssh-dir"],
     }
-    
+
     file { "${hadoop::params::mapred_user_path}/.ssh/id_rsa":
         ensure => present,
         owner => "${hadoop::params::mapred_user}",
@@ -428,7 +428,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/id_rsa",
         require => File["${hadoop::params::mapred_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::hadoop_user_path}/.ssh/config":
         ensure => present,
         owner => "${hadoop::params::hadoop_user}",
@@ -437,7 +437,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/config",
         require => File["${hadoop::params::hadoop_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::hdfs_user_path}/.ssh/config":
         ensure => present,
         owner => "${hadoop::params::hdfs_user}",
@@ -446,7 +446,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/config",
         require => File["${hadoop::params::hdfs_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::yarn_user_path}/.ssh/config":
         ensure => present,
         owner => "${hadoop::params::yarn_user}",
@@ -455,7 +455,7 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/config",
         require => File["${hadoop::params::yarn_user}-ssh-dir"],
     }
- 
+
     file { "${hadoop::params::mapred_user_path}/.ssh/config":
         ensure => present,
         owner => "${hadoop::params::mapred_user}",
@@ -464,9 +464,9 @@ class hadoop {
         source => "puppet:///modules/hadoop/ssh/config",
         require => File["${hadoop::params::mapred_user}-ssh-dir"],
     }
- 
+
     if $hadoop::params::kerberos_mode == "yes" {
- 
+
         file { "/root/.ssh/id_rsa":
             ensure => present,
             owner => "root",
@@ -474,7 +474,7 @@ class hadoop {
             mode => "600",
             source => "puppet:///modules/hadoop/ssh/root/id_rsa",
         }
- 
+
         file { "/root/.ssh/config":
             ensure => present,
             owner => "root",
@@ -482,14 +482,14 @@ class hadoop {
             mode => "600",
             source => "puppet:///modules/hadoop/ssh/config",
         }
- 
+
         file { "/root/.ssh/authorized_keys":
             ensure => present,
             owner => "root",
             group => "root",
             mode => "644",
             source => "puppet:///modules/hadoop/ssh/root/id_rsa.pub",
-        }    
+        }
 
         file { "/root/.bashrc":
             ensure => present,
@@ -499,7 +499,7 @@ class hadoop {
         }
 
     }
-    
+
     file { "${hadoop::params::hadoop_user_path}/.ssh/authorized_keys":
         ensure => present,
         owner => "${hadoop::params::hadoop_user}",
@@ -507,7 +507,7 @@ class hadoop {
         mode => "644",
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::hadoop_user}-ssh-dir"],
-    }    
+    }
 
     file { "${hadoop::params::hdfs_user_path}/.ssh/authorized_keys":
         ensure => present,
@@ -516,7 +516,7 @@ class hadoop {
         mode => "644",
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::hdfs_user}-ssh-dir"],
-    }    
+    }
 
     file { "${hadoop::params::yarn_user_path}/.ssh/authorized_keys":
         ensure => present,
@@ -525,7 +525,7 @@ class hadoop {
         mode => "644",
         source => "puppet:///modules/hadoop/ssh/id_rsa.pub",
         require => File["${hadoop::params::yarn_user}-ssh-dir"],
-    }    
+    }
 
     file { "${hadoop::params::mapred_user_path}/.ssh/authorized_keys":
         ensure => present,
@@ -536,7 +536,7 @@ class hadoop {
         require => File["${hadoop::params::mapred_user}-ssh-dir"],
     }
 
-    if $hadoop::params::kerberos_mode == "yes" { 
+    if $hadoop::params::kerberos_mode == "yes" {
 
         file {"${hadoop::params::common_base}":
             ensure => "directory",
@@ -555,17 +555,17 @@ class hadoop {
             path    => ["/bin", "/usr/bin", "/usr/sbin"],
             creates => "${hadoop::params::common_base}/commons-daemon-${hadoop::params::common_version}-src.tar.gz",
         }
-        
+
         file { "${hadoop::params::common_base}/commons-daemon-${hadoop::params::common_version}-src.tar.gz":
             mode => 0664,
             ensure => present,
             owner => "${hadoop::params::hadoop_user}",
             group => "${hadoop::params::hadoop_group}",
             alias => "commons-source-tgz",
-            before => Exec["untar-commons"],        
+            before => Exec["untar-commons"],
             require => [File["commons-base"], Exec["download-commons"]],
         }
-        
+
         exec { "untar commons-daemon-${hadoop::params::common_version}-src.tar.gz":
             command => "tar xfvz commons-daemon-${hadoop::params::common_version}-src.tar.gz",
             cwd => "${hadoop::params::common_base}",
@@ -577,7 +577,7 @@ class hadoop {
             path    => ["/bin", "/usr/bin", "/usr/sbin"],
             require => File["commons-source-tgz"]
         }
-        
+
         file { "${hadoop::params::common_base}/commons-daemon-${hadoop::params::common_version}-src":
             ensure => "directory",
             mode => 0664,
@@ -586,7 +586,7 @@ class hadoop {
             alias => "commons-dir",
             require => Exec["untar-commons"],
         }
- 
+
         file { "${hadoop::params::common_base}/jsvc":
             force => true,
             ensure => "${hadoop::params::common_base}/commons-daemon-${hadoop::params::common_version}-src",
@@ -601,7 +601,7 @@ class hadoop {
             ensure  => installed,
             require => [File["commons-symlink"]],
         }
- 
+
         exec { "make jsvc":
             command => "./configure --with-java=${hadoop::params::java_home}; make",
             cwd => "${hadoop::params::common_base}/jsvc/src/native/unix",
@@ -611,7 +611,7 @@ class hadoop {
             path    => ["/bin", "/usr/bin", "/usr/sbin", "${hadoop::params::common_base}/jsvc/src/native/unix"],
             creates => "${hadoop::params::common_base}/jsvc/src/native/unix/jsvc",
         }
- 
+
         file { "/etc/sudoers.d/secure-hadoop-user":
             ensure => present,
             owner => "root",
@@ -619,7 +619,7 @@ class hadoop {
             alias => "secure-hadoop-user",
             content => template("hadoop/sudoers/hadoop.erb"),
         }
- 
+
         file { "${hadoop::params::hadoop_base}/hadoop/bin/container-executor":
             ensure => present,
             owner => "${hadoop::params::hadoop_path_owner}",
@@ -628,7 +628,7 @@ class hadoop {
             source => "puppet:///modules/hadoop/hadoop/container-executor",
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
-        
+
         file { "${hadoop::params::hadoop_base}/hadoop/bin/test-container-executor":
             ensure => present,
             owner => "${hadoop::params::hadoop_path_owner}",
@@ -637,7 +637,7 @@ class hadoop {
             source => "puppet:///modules/hadoop/hadoop/test-container-executor",
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
- 
+
         file { "${hadoop::params::hadoop_base}/hadoop/lib/native/libhadoop.so.1.0.0":
             ensure => present,
             owner => "${hadoop::params::hadoop_user}",
@@ -646,7 +646,7 @@ class hadoop {
             source => "puppet:///modules/hadoop/hadoop/libhadoop.so.1.0.0",
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
-        
+
         file { "${hadoop::params::hadoop_base}/hadoop/bin/libhdfs.so.0.0.0":
             ensure => present,
             owner => "${hadoop::params::hadoop_user}",
@@ -655,7 +655,7 @@ class hadoop {
             source => "puppet:///modules/hadoop/hadoop/libhdfs.so.0.0.0",
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
- 
+
         file { "${hadoop::params::hadoop_base}/hadoop/etc/hadoop/container-executor.cfg":
             ensure => present,
             owner => "root",
@@ -664,7 +664,7 @@ class hadoop {
             content => template("hadoop/conf/container-executor.cfg.erb"),
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
- 
+
         file { "${hadoop::params::hadoop_base}/hadoop/etc/hadoop":
             ensure => present,
             owner => "root",
@@ -672,7 +672,7 @@ class hadoop {
             mode => "755",
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
- 
+
         file { "${hadoop::params::hadoop_base}/hadoop/etc":
             ensure => present,
             owner => "root",
@@ -680,7 +680,7 @@ class hadoop {
             mode => "755",
             require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         }
- 
+
         #file { "${hadoop::params::hadoop_base}/hadoop":
         #    ensure => present,
         #    owner => "root",
@@ -688,7 +688,7 @@ class hadoop {
         #    mode => "755",
         #    require => [ File["hadoop-symlink"], File["hadoop-app-dir"] ],
         #}
- 
+
     }
 
     if $hadoop::params::qjm_ha_mode == "yes" {
@@ -700,8 +700,8 @@ class hadoop {
             mode => "750",
             alias => "journal-datapath",
         }
- 
- 
+
+
         file { "${hadoop::params::hdfs_user_path}/zk-auth.txt":
             ensure => present,
             owner => "${hadoop::params::hdfs_user}",
@@ -710,7 +710,7 @@ class hadoop {
             content => template("hadoop/conf/zk-auth.txt.erb"),
             require => [ User["${hadoop::params::hdfs_user}"], File["${hadoop::params::hdfs_user_path}"] ],
         }
-        
+
         file { "${hadoop::params::hdfs_user_path}/zk-acl.txt":
             ensure => present,
             owner => "${hadoop::params::hdfs_user}",
@@ -719,7 +719,7 @@ class hadoop {
             content => template("hadoop/conf/zk-acl.txt.erb"),
             require => [ User["${hadoop::params::hdfs_user}"], File["${hadoop::params::hdfs_user_path}"] ],
         }
- 
+
     }
 
 }

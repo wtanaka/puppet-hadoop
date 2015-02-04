@@ -2,14 +2,12 @@
 
 class hadoop::params {
 
-  include java::params
-
   $version = $::hostname ? {
     default => "2.6.0",
   }
 
   $download_url = $::hostname ? {
-    default => "http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-${version}",
+    default => "http://mirrors.sonic.net/apache/hadoop/common/hadoop-${version}",
   }
 
   $hadoop_user = $::hostname ? {
@@ -81,10 +79,6 @@ class hadoop::params {
   #$jobtrackerport = $::hostname ? {
   #    default => "8021",
   #}
-
-  $java_home = $::hostname ? {
-    default => "${java::params::java_base}/jdk${java::params::java_version}",
-  }
 
   $hadoop_base = $::hostname ? {
     default => "/opt/hadoop",

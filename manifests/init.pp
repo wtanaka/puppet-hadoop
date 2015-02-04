@@ -8,50 +8,50 @@ class hadoop {
     gid => "800"
   }
 
-#  user { "${hadoop::params::hadoop_user}":
-#    ensure => present,
-#    comment => "Hadoop",
-#    password => "!!",
-#    uid => "800",
-#    gid => "800",
-#    shell => "/bin/bash",
-#    home => "${hadoop::params::hadoop_user_path}",
-#    require => Group["hadoop"],
-#  }
-#
-#  user { "${hadoop::params::hdfs_user}":
-#    ensure => present,
-#    comment => "Hadoop",
-#    password => "!!",
-#    uid => "801",
-#    gid => "800",
-#    shell => "/bin/bash",
-#    home => "${hadoop::params::hdfs_user_path}",
-#    require => Group["hadoop"],
-#  }
-#
-#  user { "${hadoop::params::yarn_user}":
-#    ensure => present,
-#    comment => "Hadoop",
-#    password => "!!",
-#    uid => "802",
-#    gid => "800",
-#    shell => "/bin/bash",
-#    home => "${hadoop::params::yarn_user_path}",
-#    require => Group["hadoop"],
-#  }
-#
-#  user { "${hadoop::params::mapred_user}":
-#    ensure => present,
-#    comment => "Hadoop",
-#    password => "!!",
-#    uid => "803",
-#    gid => "800",
-#    shell => "/bin/bash",
-#    home => "${hadoop::params::mapred_user_path}",
-#    require => Group["hadoop"],
-#  }
-#
+  user { "${hadoop::params::hadoop_user}":
+    ensure => present,
+    comment => "Hadoop",
+    password => "!!",
+    uid => "800",
+    gid => "800",
+    shell => "/bin/bash",
+    home => "${hadoop::params::hadoop_user_path}",
+    require => Group["hadoop"],
+  }
+
+  user { "${hadoop::params::hdfs_user}":
+    ensure => present,
+    comment => "Hadoop",
+    password => "!!",
+    uid => "801",
+    gid => "800",
+    shell => "/bin/bash",
+    home => "${hadoop::params::hdfs_user_path}",
+    require => Group["hadoop"],
+  }
+
+  user { "${hadoop::params::yarn_user}":
+    ensure => present,
+    comment => "Hadoop",
+    password => "!!",
+    uid => "802",
+    gid => "800",
+    shell => "/bin/bash",
+    home => "${hadoop::params::yarn_user_path}",
+    require => Group["hadoop"],
+  }
+
+  user { "${hadoop::params::mapred_user}":
+    ensure => present,
+    comment => "Hadoop",
+    password => "!!",
+    uid => "803",
+    gid => "800",
+    shell => "/bin/bash",
+    home => "${hadoop::params::mapred_user_path}",
+    require => Group["hadoop"],
+  }
+
 #  file { "/etc/profile.d/hadoop.sh":
 #    ensure => present,
 #    owner => "root",
